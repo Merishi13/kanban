@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+  <style>  
+body {    
+  padding: 20px 70px;    
+}  
+    .wrap-flex { display: flex; }
+</style> 
+  
+</head>
+<body style="background-color: lightgoldenrodyellow;">
+  <div>
+    <span style="float:left;">
+      <h3>Welcome {{name}}, </h3> 
+    </span>
+    <span style="float:right;">
+      <h3><a href="{{url_for('summary',name = name)}}">Summary</a> | <a href="{{url_for('index')}}">Logout</a></h3>
+    </span>
+  </div>
+  <div class = "container" style=" padding: 250px 100px;">
+    <div align = "center">
+    <h3>Edit list</h3><br>
+	<p style = "color:red"> {{msg}} </p><br>
+	<form action = "/home/editlist/{{name}}/{{listname}}" method = 'POST'>
+	<table>
+	<tr align = center>
+          <td>Name: </td><td><input type = "text" id = "list_name" name = "list_name" style = "width:100%" required></td>
+	</tr>
+<tr><td><br></td></tr>
+	<tr>
+          <td>Description:</td><td><textarea id = "list_area" name = "list_area" rows = "3" cols = "44" required> </textarea></td>
+	</tr>
+	<tr><td><br></td></tr>
+	<tr align = center>
+	<td colspan = 2>
+		 <input type = "submit" class = "btn btn-primary" value = "SAVE" >
+	</td>
+	</tr>
+	</table>
+	   
+	</form><br>
+
+	<form action = "/home/{{name}}" method = "GET">
+	<input type = "submit" class = "btn btn-primary"  value = "Go Back" >
+	</form>
+  </div>
+  </body>
+  
+</html>
+  
+ 

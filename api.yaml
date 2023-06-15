@@ -1,0 +1,547 @@
+openapi: 3.0.0
+info:
+  title: Kanban Application 
+  description: >
+    <div>In this assignment, you have to create a RESTful API, database models using Flask-RESTful  and     flask-SQLAlchemy. We list below instructions to be followed in 
+    preparing and submitting the solution.
+    <h3>General instructions:</h3>
+    <ol> 
+      <li> Submit a single .zip file containing all your submission files and folders, the name of which should be "roll_number.zip". E.g.: 21f1000000.zip </li>
+      <li>The folder structure inside the zip file should be as follows:</li>
+      <ol type = "I">
+        <li>The Python program must be written inside a file named "app.py". This file must reside inside the root folder.</li>
+        <li> The database file named "api_database.sqlite3". You are not required to submit this database file with your submission.</li>
+      </ol>
+    <li> You should not keep any code inside the scope of the condition " if __name__ == '__main__' " except run() call. </li>
+    <li> Allowed Python packages: flask, flask-sqlalchemy, flask-restful, and any standard Python3 package.</li>
+    <li> The database URI must be the same as: app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api_database.sqlite3'.</li>
+    <li> You should not use create_all() call in your program to create a database.</li>
+    </ol>
+    </div>
+
+    <h3> User Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Primary Key</td>
+      </tr>
+      <tr>
+        <td>password</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>      
+     
+    </tbody>
+    </table>
+
+    <h3> List Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>lusername</td>
+        <td>String</td>
+        <td>Primary Key</td>
+      </tr>
+      <tr>
+        <td>lname</td>
+        <td>String</td>
+        <td>Primary Key</td>
+      </tr>
+      <tr>
+        <td>ldesc</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>
+	<tr>
+        <td>lupdate</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>     
+    </tbody>
+    </table>
+
+
+    <h3> Card Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Primary Key</td>
+      </tr>
+      <tr>
+        <td>l_name</td>
+        <td>String</td>
+        <td>Primary Key</td>
+      </tr>
+      <tr>
+        <td>c_name</td>
+        <td>String</td>
+        <td>Primary Key</td>
+      </tr>
+       <tr>
+        <td>c_content</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>
+       <tr>
+        <td>c_deadline</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>
+       <tr>
+        <td>c_toggle</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>
+	<tr>
+        <td>c_update</td>
+        <td>String</td>
+        <td>-</td>
+      </tr>
+    </tbody>
+    </table>
+    <br><br>
+    
+    <h3> Error Codes </h3> 
+    <table>
+      <thead>
+        <th>Resource</th>
+        <th>Error Code</th>
+        <th>Message</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Course</td>
+        <td>COURSE001</td>
+        <td>Course Name is required</td>
+      </tr>
+      <tr>
+        <td>Course</td>
+        <td>COURSE002</td>
+        <td>Course Code is required</td>
+      </tr>
+      
+      <tr>
+        <td>Student</td>
+        <td>STUDENT001</td>
+        <td>Roll Number required</td>
+      </tr>
+      <tr>
+        <td>Student</td>
+        <td>STUDENT002</td>
+        <td>First Name is required</td>
+      </tr>
+      
+      <tr>
+        <td>Enrollment</td>
+        <td>ENROLLMENT001</td>
+        <td>Course does not exist</td>
+      </tr>
+      <tr>
+        <td>Enrollment</td>
+        <td>ENROLLMENT002</td>
+        <td>Student does not exist.</td>
+      </tr>  
+    </tbody>
+    </table>
+
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000/
+paths:
+  /api/home/list/{name}:
+    description: End point to read, update and delete a course resource with course_id = courseId.
+    post:
+      description: Operation to Create a list
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: user007
+            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lusername:
+                  type: string
+                  example: user007
+                lname:
+                  type: string
+                  example: list1
+                ldesc:
+                  type: string
+                  example: description
+                  
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lusername:
+                    type: string
+                    example: user007
+                  lname:
+                    type: string
+                    example: list1
+                  ldesc:
+                    type: string
+                    example: description
+                  
+        '409':
+          description: Listname  already exist
+        '500':
+          description: Internal Server Error
+          
+    get:
+      description: Operation to get details of  list
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: user007
+            
+      responses:
+        '200':
+          description: Fetched Successfully 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lname:
+                    type: string
+                    example: list1  
+        '404':
+          description : User not found  
+      
+  /api/home/editlist/{name}/{listname}:
+    put:
+      description: Operation to update list
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: user007
+        - in: path
+          name: listname
+          required: true
+          schema:
+            type: string
+            example: list1
+      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lusername:
+                  type: string
+                  example: user007
+                lname:
+                  type: string
+                  example: list1
+                ldesc:
+                  type: string
+                  example: description
+                  
+      responses:
+        '200':
+          description: Successfuly updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lusername:
+                    type: string
+                    example: user007
+                  lname:
+                    type: string
+                    example: list1
+                  ldesc:
+                    type: string
+                    example: description
+                  
+                  
+        '404':
+          description: List not found
+        '500':
+          description: Internal Server Error
+                    
+  /api/delete/{list_name}/{name}:
+    delete:
+      description: Operation to delete the list
+      parameters:
+        - in: path
+          name: list_name
+          required: true
+          schema:
+            type: string
+            example: list1
+            
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string 
+            example: user007
+      responses:
+        '200':
+          description: Successfully Deleted
+        '404':
+          description: List not found
+        '500':
+          description: Intenal Server Error
+          
+          
+  /api/createcard/{name}/{listname}:
+    description: End point to read, update and delete a course resource with course_id = courseId.
+    post:
+      description: Operation to Create a card
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: user007
+        - in: path
+          name: listname
+          required: true
+          schema:
+            type: string
+            example: list1
+            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: user007
+                l_name:
+                  type: string
+                  example: list1
+                c_name:
+                  type: string
+                  example: card1
+                c_content:
+                  type: string
+                  example: content
+                c_deadline:
+                  type: string
+                  example: yyyy/mm/dd
+                c_toggle:
+                  type: string
+                  example: on/off
+                  
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      example: user007
+                    l_name:
+                      type: string
+                      example: list1
+                    c_name:
+                      type: string
+                      example: card1
+                    c_content:
+                      type: string
+                      example: content
+                    c_deadline:
+                      type: string
+                      example: yyyy/mm/dd
+                    c_toggle:
+                      type: string
+                      example: on/off
+                  
+        '400':
+          description: cardname  already exist
+        '500':
+          description: Internal Server Error
+    
+    get:
+      description: Operation to get details of card
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: user007
+        - in: path
+          name: listname
+          required: true
+          schema:
+            type: string
+            example: list1
+            
+      responses:
+        '200':
+          description: Fetched Successfully 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cname:
+                    type: string
+                    example: card1 
+        '404':
+          description : List not found
+          
+  /api/editcard/{name}/{listname}/{card_name}:
+    put:
+      description: Operation to Edit a card
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: user007
+        - in: path
+          name: listname
+          required: true
+          schema:
+            type: string
+            example: list1
+        - in: path
+          name: card_name
+          required: true
+          schema:
+            type: string
+            example: card1
+      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: user007
+                l_name:
+                  type: string
+                  example: list1
+                c_name:
+                  type: string
+                  example: card1
+                c_content:
+                  type: string
+                  example: content
+                c_deadline:
+                  type: string
+                  example: yyyy/mm/dd
+                c_toggle:
+                  type: string
+                  example: on/off
+                  
+      responses:
+        '200':
+          description: Successfuly updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: user007
+                  l_name:
+                    type: string
+                    example: list1
+                  c_name:
+                    type: string
+                    example: card1
+                  c_content:
+                    type: string
+                    example: content
+                  c_deadline:
+                    type: string
+                    example: yyyy/mm/dd
+                  c_toggle:
+                    type: string
+                    example: on/off
+                  
+                  
+        '404':
+          description: card not found
+        '500':
+          description: Internal Server Error
+                    
+  /api/deletecard/{listname}/{card_name}/{name}:
+    delete:
+      description: Operation to delete a card
+      parameters:
+        - in: path
+          name: listname
+          required: true
+          schema:
+            type: string
+            example: list1
+            
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string 
+            example: user007
+            
+        - in: path
+          name: card_name
+          required: true
+          schema:
+            type: string
+            example: list1
+      responses:
+        '200':
+          description: Successfully Deleted
+        '404':
+          description: card not found
+        '500':
+          description: Intenal Server Error
+
+  
+  

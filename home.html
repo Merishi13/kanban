@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+  <style>  
+body {    padding: 20px 70px; 
+  background-color: lightyellow;  
+}  
+    .wrap-flex { display: flex; }
+</style> 
+  
+</head>
+<body>
+    <span style="float:left;">
+      <h3>Welcome {{name}}, </h3> 
+    </span>
+    <span style="float:right;">
+      <h3><a href="{{url_for('summary',name = name)}}">Summary</a> | <a href="{{url_for('index')}}">Logout</a></h3>
+    </span>
+    <div align = center style = "padding-top : 200px">
+    	{% if listret == [] %}
+    		<h2>There are no lists on the board</h2><br><br>
+		<h2 style="padding-top:100px"> <a href = "{{url_for('list' , name = name )}}" ><i class="bi bi-clipboard2-plus"></i></a> Add a list</h2>
+		
+    	{% else %}
+
+    	<div class="row row-cols-1 row-cols-md-5 g-4" class="card text-bg-info mb-3">
+		{% for list in listret %}
+  		<div class="col">
+    			<div class="card">
+      			<div class="card-body">
+       				<h5 class="card-title">
+						<div class="dropdown">
+  							<button type="button" class="btn btn-dark dropdown-toggle text-wrap col-lg-10" data-bs-toggle="dropdown" aria-expanded="false">{{list.lname}}</button>
+ 							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="{{url_for('editlist' , name = name,listname = list.lname)}}">EDIT</a></li>
+    								<li><a class="dropdown-item" href="{{url_for('delete' , name = name, list_name = list.lname )}}">DELETE</a></li>
+  							</ul>
+						</div>
+					</h5>
+
+					<div class="row row-cols-1 row-cols-md-10 g-4" class="card text-bg-info mb-3">
+					{% for card in cards %}
+						{% if list.lname == card.l_name and list.lusername == card.username %}
+						{% if card.c_toggle == 'off' %}
+						<div class="col">
+    							<div class="card">
+      							<div class="card-body">
+									<h5 class="card-title">
+									<div class="dropdown">
+  											<button type="button" class="btn btn-danger dropdown-toggle text-wrap col-lg-10" data-bs-toggle="dropdown" aria-expanded="false">{{card.c_name}}</button>
+ 											<ul class="dropdown-menu">
+    												<li><a class="dropdown-item" href="{{url_for('editcard' , name = name,listname = list.lname,card_name = card.c_name)}}">EDIT</a></li>
+    												<li><a class="dropdown-item" href="{{url_for('delete_card' , name = name,listname = list.lname, card_name = card.c_name)}}">DELETE</a></li>
+  											</ul>
+									</div>
+									<h5>{{card.c_content}}</h5><br><br>
+									<p> Deadline : {{card.c_deadline}} </p>
+									
+								</div>
+								<div class="card-footer text-center">
+                							<small class="text-muted">Last updated on {{card.c_update}}</small>
+              						</div>
+							</div>
+						</div>
+
+						{% else %}
+						<div class="col">
+    							<div class="card">
+      							<div class="card-body">
+									<h5 class="card-title">
+									<div class="dropdown">
+  											<button type="button" class="btn btn-success dropdown-toggle text-wrap col-lg-10" data-bs-toggle="dropdown" aria-expanded="false">{{card.c_name}}</button>
+ 											<ul class="dropdown-menu">
+    												<li><a class="dropdown-item" href="{{url_for('editcard' , name = name,listname = list.lname,card_name = card.c_name)}}">EDIT</a></li>
+    												<li><a class="dropdown-item" href="{{url_for('delete_card' , name = name,listname = list.lname, card_name = card.c_name)}}">DELETE</a></li>
+  											</ul>
+									</div>
+									<h5>{{card.c_content}}</h5><br><br>
+									<p> Deadline : {{card.c_deadline}} </p>
+									
+								</div>
+								<div class="card-footer text-center">
+                							<small class="text-muted">Last updated on {{card.c_update}}</small>
+              						</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endif %}
+					{% endfor %}
+					</div><br><br>
+					<h4> <a href = "{{url_for('createcard' , name = name,listname = list.lname )}}" ><i class="bi bi-clipboard2-plus"></i></a></h4>
+      			</div>
+				<div class="card-footer text-center">
+                		<small class="text-muted">Last updated on {{list.lupdate}}</small>
+              		</div>
+    			</div>
+  		</div>
+		{% endfor %}
+
+		<div class="position-relative">
+        		<h3 class="position-absolute top-50" style="padding-left:75px"> <a href = "{{url_for('list' , name = name )}}" ><i class="bi bi-clipboard2-plus"></i></a> Add a list</h3>
+      	</div>
+	</div>
+	{% endif %}<br>
+	
+	
+    </div>
+</body>
+</html>

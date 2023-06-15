@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>SIGN UP</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color: lightyellow;">
+    <center style = "padding-top:200px">
+	<h3> SIGN UP</h3><br>
+      <form action="/signup" method = "POST">
+	  <p style = "color:red"> {{msg}} </p><br>
+        <input type="text" id="name" name="name" placeholder="Name" style="width: 20%;height: 40px;"><br><br>
+        <input type="text" id="uname" name="uname" placeholder="Username" style="width: 20%;height: 40px;"><br><br>
+        <input type="password" id="newpass" name="newpass" placeholder="Create password" style="width: 20%;height: 40px;"><br><br>
+        <input type="password" id="repass" name="repass" placeholder="Re-enter password" style="width: 20%;height: 40px;"><br><br>
+        <input class="btn btn-primary" type="submit" value="SIGN IN"/>
+      </form><br>
+	<form action = "/" method = "GET" >
+	<input type = "submit" class = "btn btn-primary"  value = "Go Back">
+	</form>
+    </center>
+</body>

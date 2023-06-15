@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+  <style>  
+body {    padding: 20px 70px; 
+  background-color: lightgoldenrodyellow;  
+} 
+</style> 
+  
+</head>
+<body>
+    <span style="float:left;">
+      <h3>Welcome {{name}}, </h3> 
+    </span>
+    <span style="float:right;">
+      <h3><a href="{{url_for('summary',name = name)}}">Summary</a> | <a href="{{url_for('index')}}">Logout</a></h3>
+    </span>
+	<div style = "padding-top : 150px" align = "center">
+	<p style = "color:red" align = center> {{msg}} </p><br>
+	<table align = center cellpadding = 20>
+		<form action = "/createcard/{{name}}/{{listname}}" method = 'POST'>
+		<tr>
+		<td>List</td>
+		<td><select name = "list">
+		{% for list in lists %}
+		{% if list.lname == listname %}
+		<option selected> {{list.lname}} </option>
+		{% else %}
+		<option> {{list.lname}} </option>
+		{% endif %}
+		{% endfor %}
+		</select></td>
+		</tr>
+		
+		<tr>
+		<td>Title</td>
+		<td><input type = "text" name = "title" required></td>
+		</tr>
+
+		<tr>
+		<td>Content</td>
+		<td><textarea name = "content" cols = 23 required></textarea></td>
+		</tr>
+
+		<tr>
+		<td>Deadline</td>
+		<td><input type = "date" name = "deadline" required></td>
+		</tr>
+
+		<tr>
+		<td>Mark as complete</td>
+		<td><div class = "form-check form-switch">
+		<input class = "form-check-input" type = "checkbox" name = "toggle" role = "switch" id = "flexSwitchCheckDefault">
+		</div>	
+		</td>
+		</tr>
+		
+		<tr align = center>
+		<td colspan = 2>
+		<input type = "submit" class = "btn btn-primary" value = "SAVE" >
+		</td>
+		</tr>
+		</form>
+	</table>
+		<form action = "/home/{{name}}" method = "GET" >
+		<input type = "submit" class = "btn btn-primary"  value = "Go Back">
+		</form>
+	</div>
+</body>
+</html>
